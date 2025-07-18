@@ -78,7 +78,7 @@ def main():
     """
 
     with elements("visual_simulation"):
-        html.write(f"""
+        html(f"""
         {css}
         <div class="simulation-container">
             <div class="person" style="animation-delay: 0s;"></div>
