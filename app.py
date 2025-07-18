@@ -1,87 +1,59 @@
 import streamlit as st
+from animation_component import render_animation
 
-def main():
-    st.set_page_config(page_title="Real Economy Simulator", layout="centered")
-    st.title("📊 Real Economy Simulator")
-    st.markdown("Use the sliders to simulate basic economic parameters:")
+# Set wide layout
+st.set_page_config(layout="wide")
 
-    # Sliders
-    interest_rate = st.slider("Interest Rate (%)", 0.0, 15.0, 2.5)
-    inflation_rate = st.slider("Inflation Rate (%)", 0.0, 10.0, 3.0)
-    gdp_growth = st.slider("GDP Growth Rate (%)", -5.0, 10.0, 2.0)
+st.title("💸 Real Economy Simulator")
+st.caption("Adjust parameters to simulate a simple economic model.")
+st.markdown("---")
 
-    # Economic Inputs
-    st.subheader("🔧 Economic Parameters")
-    min_wage = st.slider("Federal Minimum Wage ($/hr)", 7.25, 25.0, 15.0, 0.25)
-    housing_cost = st.slider("Avg Monthly Housing Cost ($)", 500, 3000, 1200, 50)
-    tax_rate = st.slider("Tax Rate (%)", 0.0, 40.0, 15.0, 0.5)
+# --- Control Bar ---
+col1, col2, col3 = st.columns(3)
+with col1:
+    inflation = st.slider("Inflation Rate (%)", 0.0, 10.0, 2.0, 0.1)
+with col2:
+    gdp_growth = st.slider("GDP Growth Rate (%)", -5.0, 10.0, 2.0, 0.1)
+with col3:
+    min_wage = st.slider("Minimum Wage ($/hr)", 7.25, 25.0, 15.0, 0.25)
 
-    # Income Calculations
-    annual_income = min_wage * 40 * 52
-    annual_tax_paid = annual_income * (tax_rate / 100)
-    net_income = annual_income - annual_tax_paid
-    annual_housing_cost = housing_cost * 12
-    disposable_income = net_income - annual_housing_cost
+monthly_housing = st.slider("Monthly Housing Cost ($)", 500, 3000, 1200, 50)
+tax_rate = st.slider("Tax Rate (%)", 0.0, 40.0, 15.0, 0.5)
 
-    # Display Metrics
-    st.metric("Net Annual Income", f"${net_income:,.2f}")
-    st.metric("Annual Housing Cost", f"${annual_housing_cost:,.2f}")
-    st.metric("Disposable Income After Housing", f"${disposable_income:,.2f}")
+# --- Economic Logic ---
+def calculate_income(min_wage, tax_rate):
+    gross_income = min_wage * 40 * 52
+    return gross_income * (1 - tax_rate / 100)
 
-    # Unemployment Estimate
-    unemployment = round(max(0.5, 8 - gdp_growth + interest_rate / 2 + inflation_rate / 4), 2)
+def calculate_housing_cost(monthly_cost):
+    return monthly_cost * 12
 
-    # CSS + HTML Simulation
-    css_animation = """
-    <style>
-    .simulation-container {
-        width: 100%;
-        height: 300px;
-        position: relative;
-        background-color: #1e1e1e;
-        border: 1px solid #444;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-top: 2rem;
-    }
-    .person {
-        width: 40px;
-        height: 40px;
-        background-color: #4CAF50;
-        position: absolute;
-        bottom: 10px;
-        border-radius: 8px;
-        animation: movePerson 5s infinite alternate ease-in-out;
-    }
-    .coin {
-        width: 20px;
-        height: 20px;
-        background-color: gold;
-        border-radius: 50%;
-        position: absolute;
-        bottom: 60px;
-        animation: moveCoin 2s infinite alternate ease-in-out;
-    }
-    @keyframes movePerson {
-        0% { left: 10%; }
-        100% { left: 70%; }
-    }
-    @keyframes moveCoin {
-        0% { left: 15%; }
-        100% { left: 75%; }
-    }
-    </style>
+def calculate_unemployment_rate(inflation, gdp_growth):
+    base = 5.0
+    inflation_impact = (inflation - 2.0) * 0.5
+    gdp_impact = (2.0 - gdp_growth) * 0.7
+    return max(0.0, base + inflation_impact + gdp_impact)
 
-    <div class="simulation-container">
-        <div class="person" style="animation-delay: 0s;"></div>
-        <div class="coin" style="animation-delay: 0.5s;"></div>
-    </div>
-    """
+net_income = calculate_income(min_wage, tax_rate)
+housing_cost = calculate_housing_cost(monthly_housing)
+disposable_income = net_income - housing_cost
+unemployment = calculate_unemployment_rate(inflation, gdp_growth)
 
-    st.markdown(css_animation, unsafe_allow_html=True)
+# --- Results ---
+st.markdown("### 📊 Simulation Results")
+m1, m2, m3 = st.columns(3)
+m1.metric("Net Annual Income", f"${net_income:,.2f}")
+m2.metric("Annual Housing Cost", f"${housing_cost:,.2f}")
+m3.metric("Disposable Income", f"${disposable_income:,.2f}")
 
-    # Final Output
-    st.metric("Estimated Unemployment Rate", f"{unemployment} %")
+st.markdown(f"### 📉 Estimated Unemployment Rate: **{unemployment:.1f}%**")
 
-if __name__ == "__main__":
-    main()
+# --- Animation Component ---
+render_animation(
+    min_wage=min_wage,
+    tax_rate=tax_rate,
+    inflation=inflation,
+    gdp_growth=gdp_growth,
+    unemployment=unemployment,
+    disposable_income=disposable_income
+)
