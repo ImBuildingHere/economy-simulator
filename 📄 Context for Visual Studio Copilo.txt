@@ -1,0 +1,96 @@
+**Evolving Economy Simulator** — Developer Vision & Project Roadmap
+
+---
+
+### 🎯 Project Vision
+Create a dynamic, explorable economic simulation game with realism, adaptability, and educational value. Users should be able to simulate real-world economic scenarios (e.g. 2008 housing crash, post-COVID automation boom) and test policy and individual-level interventions in real time.
+
+---
+
+### 🔑 Core Pillars
+1. **Fully Interactive Simulation**
+   - Every parameter (UBI, automation level, recession probability, company behavior, education cost, etc.) can be adjusted live within the simulation.
+   - Scenario presets for major events like the Great Recession, Tech Bubble, etc.
+
+2. **Rich Agent Logic**
+   - Each agent has:
+     - Age, health, education level
+     - Hobbies, talents, and soft/hard skills
+     - Preferences and personality traits
+     - Risk tolerance and ambition
+   - Agents choose paths dynamically based on skills and interests
+   - Career decisions (e.g. going into trades vs. college) are influenced by income potential, scholarships, dropout risk, and personality
+
+3. **Expanded Job & Industry System**
+   - Add more sectors: e.g. Trades, Sales, Creative, Manufacturing, Education, Finance, Transportation
+   - Companies exist within industries with:
+     - Hiring capacity
+     - Stock market performance
+     - Automation risk
+   - Job tree includes entry, mid, and advanced career levels
+
+4. **Daily Life Cycle + Life Events**
+   - Agents simulate a daily routine (school/work -> home)
+   - Health decay, aging, accidents, retirement, disease, or burnout events
+   - Insurance or healthcare access tied to jobs
+
+5. **Macro Policies & Programs**
+   - UBI, taxes, subsidies, public schooling, Medicare-for-all, stimulus
+   - Simulation of short-term vs. long-term effects
+
+---
+
+### 🧠 AI-Driven Agent Behavior
+- Personality affects:
+  - Career ambition (entrepreneur vs. employee)
+  - Work/life balance
+  - Willingness to relocate, retrain, or upskill
+- Hobbies/skills impact suitability across job trees
+
+---
+
+### 🏗️ In-Game UI Control System
+- Centralized overlay UI (toggleable) that shows when hovered
+- Auto-hide when not hovered (with delay buffer)
+- UI Elements:
+  - Live economic stats
+  - Adjustable simulation parameters (e.g. time speed, UBI toggle)
+  - Industry filter controls
+  - Event history / logs
+  - Stock market dashboard
+  - Agent behavior sliders (e.g. risk appetite, savings rate)
+
+---
+
+### 🧪 Future Suggestions
+- Support multiplayer simulations for group testing
+- Enable "rewind" + timeline slider
+- Save/load scenarios
+- Assign user-created policy goals (e.g. reduce unemployment below 5%)
+- Visualize inequality, economic mobility, and wealth distribution
+- Integrate chat-driven command interface (LLM optional)
+- Sound/music effects tied to economy (tense when in recession, light during boom)
+- Generative agent quotes based on morale, politics, etc.
+- Data export for analysis in CSV/Excel
+
+---
+
+### ⚠️ Current Bugs / Fixes Needed
+- Inconsistent visual updates (sometimes frame skips)
+- Trails misrender during fast movement
+- UI toggles cause conflicting states if clicked fast
+- Tooltip hover bugs when too many agents cluster
+- Poor career path logic for low-education agents
+
+---
+
+### ✅ Next Milestones
+1. Build complete centralized UI overlay system
+2. Refactor agent decision logic
+3. Add industry/education/job trees in config file
+4. Create scenario preset loader (2008, post-COVID, etc.)
+5. Add dynamic career visuals and event animations
+
+---
+
+Ready for development.
